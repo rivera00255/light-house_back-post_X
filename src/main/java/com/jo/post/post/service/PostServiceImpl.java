@@ -1,5 +1,6 @@
 package com.jo.post.post.service;
 
+import com.jo.post.category.service.CategoryService;
 import com.jo.post.post.model.Post;
 import com.jo.post.post.model.PostDto;
 import com.jo.post.post.repository.PostRepository;
@@ -17,14 +18,15 @@ import java.util.Optional;
 public class PostServiceImpl implements PostService{
 
     private final PostRepository postRepository;
+    private final CategoryService categoryService;
 
     @Transactional
     @Override
     public void savePost(PostDto postDto) {
-        log.info("addPost");
+        log.info("add Post");
         postRepository.save(Post.builder()
                 .id(null)
-                .category(postDto.getCategory())
+                .category(categoryService.getCategoryById(postDto.getCategoryId()).get())
                 .title(postDto.getTitle())
                 .content(postDto.getContent())
                 .postImg(postDto.getPostImg())
@@ -51,14 +53,14 @@ public class PostServiceImpl implements PostService{
         if(postRepository.findById(id).isPresent()){ //id 값이 있는지 확인부터 해보기
             Post post = Post.builder()
                     .id(postDto.getId())
-                    .category(postDto.getCategory())
+                    .category(categoryService.getCategoryById(postDto.getCategoryId()).get())
                     .title(postDto.getTitle())
                     .content(postDto.getContent())
                     .postImg(postDto.getPostImg())
                     .build();
             postRepository.save(post);
         }else {
-            log.error("edit post category error.");
+            log.error("edit post error.");
         }
     }
 

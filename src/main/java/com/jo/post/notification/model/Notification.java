@@ -17,10 +17,13 @@ public class Notification extends BaseTime {
     @Column(nullable = false)
     private String title;
     private String content;
+    private String notifImg;
 
     @Builder
-    public Notification(String title, String content) {
+    public Notification(Long id, String title, String content, String notifImg) {
+        this.id = id;
         this.title = title;
         this.content = content;
+        this.notifImg = notifImg;
     }
 }

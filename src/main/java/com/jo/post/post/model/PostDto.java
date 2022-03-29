@@ -10,14 +10,14 @@ import lombok.Setter;
 public class PostDto {
 
     private Long id;
-    private String category;
+    private Long categoryId;
     private String title;
     private String content;
     private String postImg;
 
-    public PostDto(Long id, String category, String title, String content, String postImg) {
+    public PostDto(Long id, Long categoryId, String title, String content, String postImg) {
         this.id = id;
-        this.category = category;
+        this.categoryId = categoryId;
         this.title = title;
         this.content = content;
         this.postImg = postImg;

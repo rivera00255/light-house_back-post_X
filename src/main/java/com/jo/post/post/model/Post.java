@@ -1,5 +1,6 @@
 package com.jo.post.post.model;
 
+import com.jo.post.category.model.CategoryEntity;
 import com.jo.post.util.BaseTime;
 import lombok.*;
 
@@ -13,8 +14,9 @@ public class Post extends BaseTime {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
-    private String category;
+    @ManyToOne
+    @JoinColumn(name = "categoryId")
+    private CategoryEntity category;
     @Column(nullable = false)
     private String title;
     @Column(nullable = false)
@@ -23,7 +25,7 @@ public class Post extends BaseTime {
 
 
     @Builder
-    public Post(Long id, String category, String title, String content, String postImg) {
+    public Post(Long id, CategoryEntity category, String title, String content, String postImg) {
         this.id = id;
         this.category = category;
         this.title = title;
