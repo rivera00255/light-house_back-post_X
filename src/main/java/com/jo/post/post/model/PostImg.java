@@ -10,8 +10,8 @@ public class PostImg {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
-    @JoinColumn(name = "post_id")
-    private Post post;
-    private String url;
+//    @ManyToOne
+//    @JoinColumn(name = "post_id")
+//    private Post post;
+//    private String url;
 }

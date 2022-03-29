@@ -5,27 +5,29 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@AllArgsConstructor
+
 @NoArgsConstructor
-@Setter
-@Getter
+@Data
 @Entity
 public class Post extends BaseTime {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false) @Enumerated(EnumType.STRING)
-    private Category category;
+    @Column(nullable = false)
+    private String category;
     @Column(nullable = false)
     private String title;
     @Column(nullable = false)
     private String content;
+    private String postImg;
 
 
     @Builder
-    public Post(Category category, String title, String content) {
+    public Post(Long id, String category, String title, String content, String postImg) {
+        this.id = id;
         this.category = category;
         this.title = title;
         this.content = content;
+        this.postImg = postImg;
     }
 }
