@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 @NoArgsConstructor
 @Data
+@EqualsAndHashCode(callSuper=false) //???시스템에서 추가하라고함
 @Entity
 public class Post extends BaseTime {
 

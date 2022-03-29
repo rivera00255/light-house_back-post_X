@@ -1,4 +1,4 @@
-package com.jo.post.post.model;
+package com.jo.post.postImg;
 
 import lombok.Data;
 
@@ -10,8 +10,5 @@ public class PostImg {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-//    @ManyToOne
-//    @JoinColumn(name = "post_id")
-//    private Post post;
-//    private String url;
+    private String url;
 }

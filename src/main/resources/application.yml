@@ -1,0 +1,11 @@
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIAWHCFW3X6P3XAP2VQ
+      secretKey: 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
+    s3:
+      bucket: springboot-user-imagefile
+    region:
+      static: us-east-1
+    stack:
+      auto: false
