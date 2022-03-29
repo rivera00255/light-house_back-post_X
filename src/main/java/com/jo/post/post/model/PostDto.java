@@ -9,13 +9,17 @@ import lombok.Setter;
 @Setter
 public class PostDto {
 
-    private String category;
+    private Long id;
+    private Long categoryId;
     private String title;
     private String content;
+    private String postImg;
 
-    public PostDto(String category, String title, String content) {
-        this.category = category;
+    public PostDto(Long id, Long categoryId, String title, String content, String postImg) {
+        this.id = id;
+        this.categoryId = categoryId;
         this.title = title;
         this.content = content;
+        this.postImg = postImg;
     }
 }

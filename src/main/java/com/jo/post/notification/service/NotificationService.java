@@ -14,3 +14,4 @@ public interface NotificationService {
     void editNotice(Long id, NotificationDto noticeDto);
     void delNotice(Long id);
 }
+

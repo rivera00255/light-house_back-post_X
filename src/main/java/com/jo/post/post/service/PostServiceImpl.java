@@ -1,6 +1,6 @@
 package com.jo.post.post.service;
 
-import com.jo.post.post.model.Category;
+import com.jo.post.category.service.CategoryService;
 import com.jo.post.post.model.Post;
 import com.jo.post.post.model.PostDto;
 import com.jo.post.post.repository.PostRepository;
@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,85 +18,62 @@ import java.util.Optional;
 public class PostServiceImpl implements PostService{
 
     private final PostRepository postRepository;
+    private final CategoryService categoryService;
 
+    @Transactional
     @Override
     public void savePost(PostDto postDto) {
-        try {
-            if(postDto.getCategory().equals("인증")) {
-                postRepository.save(Post.builder()
-                        .category(Category.DAILY)
-                        .title(postDto.getTitle())
-                        .content(postDto.getContent())
-                        .build());
-            } else if(postDto.getCategory().equals("자랑")) {
-                postRepository.save(Post.builder()
-                        .category(Category.PHOTO)
-                        .title(postDto.getTitle())
-                        .content(postDto.getContent())
-                        .build());
-            } else {
-                log.error("save post category error : {}", postDto.getCategory());
-            }
-
-        } catch (Exception e) {
-            log.error("save post error : {}", e.getMessage());
-        }
+        log.info("add Post");
+        postRepository.save(Post.builder()
+                .id(null)
+                .category(categoryService.getCategoryById(postDto.getCategoryId()).get())
+                .title(postDto.getTitle())
+                .content(postDto.getContent())
+                .postImg(postDto.getPostImg())
+                .build());
     }
 
+    @Transactional
     @Override
     public List<Post> findAllPost() {
-        try {
-            return postRepository.findAll();
-        } catch (Exception e) {
-            log.error("find all post error : {}", e.getMessage());
-            return null;
-        }
+        return postRepository.findAll();
     }
 
+    @Transactional
     @Override
     public Optional<Post> findById(Long id) {
-        try {
-            log.info("find by post id : {}", id);
-            return Optional.ofNullable(postRepository.findById(id).get());
-        } catch(Exception e) {
-            log.error("find by post id error : {}", e.getMessage());
-            return null;
-        }
+        log.info("find by post id : {}", id);
+        return Optional.ofNullable(postRepository.findById(id).get());
     }
 
+    @Transactional
     @Override
     public void editPost(Long id, PostDto postDto) {
-       try {
-           Post post = postRepository.findById(id).get();
-
-           if(post != null) {
-               if(postDto.getCategory().equals("인증")) {
-                   post.setTitle(postDto.getTitle());
-                   post.setContent(postDto.getContent());
-                   post.setCategory(Category.DAILY);
-               } else if(postDto.getCategory().equals("자랑")) {
-                   post.setTitle(postDto.getTitle());
-                   post.setContent(postDto.getContent());
-                   post.setCategory(Category.PHOTO);
-               } else {
-                   log.error("edit post category error : {}", postDto.getCategory());
-               }
-           }
-
-           postRepository.save(post);
-       } catch(Exception e) {
-           log.error("edit post error : {}", e.getMessage());
-       }
+        log.info("edit post {}.", postRepository.findById(postDto.getId()));
+        if(postRepository.findById(id).isPresent()){ //id 값이 있는지 확인부터 해보기
+            Post post = Post.builder()
+                    .id(postDto.getId())
+                    .category(categoryService.getCategoryById(postDto.getCategoryId()).get())
+                    .title(postDto.getTitle())
+                    .content(postDto.getContent())
+                    .postImg(postDto.getPostImg())
+                    .build();
+            postRepository.save(post);
+        }else {
+            log.error("edit post error.");
+        }
     }
 
+    @Transactional
     @Override
     public void delPost(Long id) {
-        try {
-            if(postRepository.findById(id).isPresent()) {
-                postRepository.deleteById(id);
-            }
-        } catch (Exception e) {
-            log.error("delete post error : {}", e.getMessage());
+        if (postRepository.findById(id).isPresent()){
+            log.info("delete Post by id");
+            postRepository.deleteById(id);
+        }else {
+            log.error("delete Post error.");
         }
+
+
     }
 }
