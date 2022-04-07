@@ -1,6 +1,5 @@
 package com.jo.post.postImg;
 
-
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +15,9 @@ public class PostImg {
     private Long id;
     @Column(columnDefinition = "TEXT")
     private String url;
+//    @JoinColumn(name = "post_id")
+//    @ManyToOne(cascade = CascadeType.REMOVE)
+//    private Post post;
 
     @Builder
     public PostImg(Long id, String url){

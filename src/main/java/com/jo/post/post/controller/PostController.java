@@ -4,10 +4,14 @@ import com.jo.post.post.model.Post;
 import com.jo.post.post.model.PostDto;
 import com.jo.post.post.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
+@CrossOrigin("*")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
@@ -16,8 +20,8 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/post")
-    public void savePost(@RequestBody PostDto postDto) {
-        postService.savePost(postDto);
+    public Long savePost(@RequestBody PostDto postDto) {
+        return postService.savePost(postDto);
     }
 
     @PutMapping("/post/{id}")
@@ -38,6 +42,11 @@ public class PostController {
     @DeleteMapping("/post/{id}")
     public void delPost(@PathVariable Long id) {
         postService.delPost(id);
+    }
+
+    @GetMapping("/post/auth/{goalId}")
+    public List<Post> findAllByGoalId(@PathVariable Long goalId) {
+        return postService.findAllByGoalId(goalId);
     }
 
 }

@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -14,12 +16,16 @@ public class PostDto {
     private String title;
     private String content;
     private String postImg;
+    private LocalDate created;
+    private Long goalId;
 
-    public PostDto(Long id, Long categoryId, String title, String content, String postImg) {
+    public PostDto(Long id, Long categoryId, String title, String content, String postImg, LocalDate created, Long goalId) {
         this.id = id;
         this.categoryId = categoryId;
         this.title = title;
         this.content = content;
         this.postImg = postImg;
+        this.created = created;
+        this.goalId = goalId;
     }
 }

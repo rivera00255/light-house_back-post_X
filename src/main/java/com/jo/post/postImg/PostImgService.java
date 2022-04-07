@@ -38,4 +38,5 @@ public class PostImgService {
                 .imgFullPath("https://" + s3Service.CLOUD_FRONT_DOMAIN_NAME + "/" + postImg.getUrl()) //url 주소 변형 cloud front 주소로 변경할것
                 .build();
     }
+
 }

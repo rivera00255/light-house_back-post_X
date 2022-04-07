@@ -5,13 +5,14 @@ import com.jo.post.util.BaseTime;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper=false) //???시스템에서 추가하라고함
 @Entity
-public class Post extends BaseTime {
+public class Post {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,14 +24,18 @@ public class Post extends BaseTime {
     @Column(nullable = false)
     private String content;
     private String postImg;
+    private LocalDate created;
+    private Long goalId;
 
 
     @Builder
-    public Post(Long id, CategoryEntity category, String title, String content, String postImg) {
+    public Post(Long id, CategoryEntity category, String title, String content, String postImg, LocalDate created, Long goalId) {
         this.id = id;
         this.category = category;
         this.title = title;
         this.content = content;
         this.postImg = postImg;
+        this.created = created;
+        this.goalId = goalId;
     }
 }

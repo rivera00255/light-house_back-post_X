@@ -4,11 +4,13 @@ import com.jo.post.category.service.CategoryService;
 import com.jo.post.post.model.Post;
 import com.jo.post.post.model.PostDto;
 import com.jo.post.post.repository.PostRepository;
+import com.jo.post.postImg.PostImgService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,18 +21,25 @@ public class PostServiceImpl implements PostService{
 
     private final PostRepository postRepository;
     private final CategoryService categoryService;
+    private final PostImgService postImgService;
 
     @Transactional
     @Override
-    public void savePost(PostDto postDto) {
+    public Long savePost(PostDto postDto) {
         log.info("add Post");
-        postRepository.save(Post.builder()
-                .id(null)
-                .category(categoryService.getCategoryById(postDto.getCategoryId()).get())
-                .title(postDto.getTitle())
-                .content(postDto.getContent())
-                .postImg(postDto.getPostImg())
-                .build());
+        if(postRepository.findByGoalIdAndCreated(postDto.getGoalId(), postDto.getCreated()).isPresent()) {
+            return null;
+        } else {
+            Post post = postRepository.save(Post.builder()
+                    .title(postDto.getTitle())
+                    .content(postDto.getContent())
+                    .category(categoryService.getCategoryById(postDto.getCategoryId()).get())
+                    .postImg(postDto.getPostImg())
+                    .created(LocalDate.now())
+                    .goalId(postDto.getGoalId())
+                    .build());
+            return post.getId();
+        }
     }
 
     @Transactional
@@ -73,7 +82,10 @@ public class PostServiceImpl implements PostService{
         }else {
             log.error("delete Post error.");
         }
+    }
 
-
+    @Override
+    public List<Post> findAllByGoalId(Long goalId) {
+        return postRepository.findAllByGoalId(goalId);
     }
 }
